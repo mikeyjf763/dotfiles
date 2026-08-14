@@ -52,11 +52,17 @@
     brews = [
       "herdr"
       "gh"
+      "glab"       # GitLab CLI
+      "azure-cli"
+      "bat"
     ];
+    # Claude Code is intentionally NOT a cask - it's installed by bootstrap.sh
+    # via Anthropic's self-updating installer into ~/.local/bin. Managing it
+    # here fought that copy and broke the switch behind a corporate VPN.
     casks = [
       "alt-tab"
       "wezterm"
-      "claude-code"
+      "obsidian"
     ];
   };
 }

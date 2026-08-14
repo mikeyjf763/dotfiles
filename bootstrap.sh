@@ -60,4 +60,20 @@ sudo "$NIX_BIN" run github:nix-darwin/nix-darwin/nix-darwin-26.05#darwin-rebuild
 # If this still fails with "nix: command not found", open a new terminal
 # (Determinate adds nix to new shells' PATH) and re-run ./bootstrap.sh.
 
+echo "==> Step 5: Claude Code (best effort)"
+# Claude Code is installed via Anthropic's official installer, not Homebrew:
+# it self-updates and lives in ~/.local/bin, so managing it as a cask just
+# adds a second copy. The download can fail behind a corporate proxy/VPN
+# (e.g. Zscaler TLS interception), so this step is allowed to fail without
+# aborting the whole bootstrap - re-run it later on an unrestricted network.
+if command -v claude >/dev/null 2>&1; then
+  echo "    claude already installed, skipping"
+elif curl --proto '=https' --tlsv1.2 -fsSL https://claude.ai/install.sh | bash; then
+  echo "    claude installed"
+else
+  echo "    WARNING: claude install failed (likely a VPN/proxy blocking the download)."
+  echo "    Everything else is set up. Re-run this to retry:"
+  echo "      curl -fsSL https://claude.ai/install.sh | bash"
+fi
+
 echo "==> Done. Use ./rebuild.sh for future changes."

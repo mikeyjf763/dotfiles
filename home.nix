@@ -12,16 +12,30 @@ in
     # cli i use constantly
     ripgrep   # fast search
     fd        # fast find
-    fzf       # fuzzy finder
     jq        # json on the command line
     lazygit
     neovim
     nodejs    # needed by nvim's Mason to install most LSP servers (ts_ls, pyright, bashls, jsonls, cssls, html)
+    eza       # ls/ll replacement
+    zoxide    # smart cd
     # the font everything renders in
     nerd-fonts.hack
   ];
   fonts.fontconfig.enable = true;
   home.sessionVariables.EDITOR = "nvim";
+  # claude installs itself here; home-manager owns .zshenv/.zshrc so this must
+  # be declared, not hand-added, or it's lost on the next switch.
+  home.sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;  # key bindings + fuzzy completion
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   programs.zsh = {
     enable = true;
@@ -29,6 +43,38 @@ in
     syntaxHighlighting.enable = true;  # commands turn green when valid
     initContent = ''
       bindkey '^f' autosuggest-accept
+
+      # nvm is installed by its own upstream installer (not nix-managed, same
+      # reasoning as claude in ~/.local/bin), so just source it if present.
+      export NVM_DIR="$HOME/.nvm"
+      [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+      # bun is installed by its own upstream installer, same reasoning as nvm.
+      export BUN_INSTALL="$HOME/.bun"
+      export PATH="$BUN_INSTALL/bin:$PATH"
+      [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+      # Corporate work proxy, kept out of ~/.claude so it never touches
+      # personal Claude credentials/history. Explicit versioned model IDs are
+      # required: the proxy 400s on the "sonnet"/"opus" shorthand aliases.
+      function claude-work() {
+        CLAUDE_CONFIG_DIR="$HOME/.claude-work" \
+        ANTHROPIC_BASE_URL=http://localhost:4141 \
+        NODE_EXTRA_CA_CERTS="$HOME/.zscaler-ca-full.pem" \
+        claude --model claude-sonnet-4.6 "$@"
+      }
+
+      function claude-work-opus() {
+        CLAUDE_CONFIG_DIR="$HOME/.claude-work" \
+        ANTHROPIC_BASE_URL=http://localhost:4141 \
+        NODE_EXTRA_CA_CERTS="$HOME/.zscaler-ca-full.pem" \
+        claude --model claude-opus-4.8 "$@"
+      }
+
+      # Machine-local secrets/overrides that must never enter this public
+      # repo (e.g. MBDP_GITLAB_DEPLOY_TOKEN). Populate by hand per machine.
+      [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
     '';
     shellAliases = {
       ".." = "cd ..";
@@ -38,6 +84,9 @@ in
       m = "git switch main";
       cc = "claude --dangerously-skip-permissions";
       co = "codex --full-auto";
+      ls = "eza --icons";
+      ll = "eza -la --icons --git";
+      cat = "bat";
     };
   };
 
@@ -48,6 +97,8 @@ in
       email = "mikey4long@gmail.com";
     };
     settings.credential.helper = "!/opt/homebrew/bin/gh auth git-credential";
+    # GitLab: route gitlab.com auth through glab's credential helper.
+    settings.credential."https://gitlab.com".helper = "!/opt/homebrew/bin/glab auth git-credential";
   };
 
   programs.starship = {
