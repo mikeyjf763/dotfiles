@@ -51,6 +51,7 @@
     onActivation.extraFlags = [ "--force" ];
     brews = [
       "herdr"
+      "gh"
     ];
     casks = [
       "alt-tab"

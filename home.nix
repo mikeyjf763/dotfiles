@@ -16,6 +16,7 @@ in
     jq        # json on the command line
     lazygit
     neovim
+    nodejs    # needed by nvim's Mason to install most LSP servers (ts_ls, pyright, bashls, jsonls, cssls, html)
     # the font everything renders in
     nerd-fonts.hack
   ];
@@ -38,6 +39,15 @@ in
       cc = "claude --dangerously-skip-permissions";
       co = "codex --full-auto";
     };
+  };
+
+  programs.git = {
+    enable = true;
+    settings.user = {
+      name = "Mike Furlong";
+      email = "mikey4long@gmail.com";
+    };
+    settings.credential.helper = "!/opt/homebrew/bin/gh auth git-credential";
   };
 
   programs.starship = {
