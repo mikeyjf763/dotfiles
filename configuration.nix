@@ -49,6 +49,9 @@
     onActivation.cleanup = "zap";  # remove anything not listed here
     onActivation.autoUpdate = true;
     onActivation.extraFlags = [ "--force" ];
+    taps = [
+      "automic-vault/isotopes"  # required for the automic-vault cask
+    ];
     brews = [
       "herdr"
       "gh"
@@ -63,6 +66,7 @@
       "alt-tab"
       "wezterm"
       "obsidian"
+      "automic-vault"  # secrets manager; gates tool/agent access to Keychain-backed credentials
     ];
   };
 }
