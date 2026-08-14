@@ -21,13 +21,28 @@
       AppleShowAllExtensions = true;
     };
     dock.autohide = true;
+    dock.minimize-to-application = true;  # minimized windows fold into the app's dock icon instead of their own thumbnail
     finder.FXPreferredViewStyle = "Nlsv";  # list view by default
     finder.CreateDesktop = false;          # clean desktop
     trackpad.Clicking = true;              # tap to click
+
+    # AltTab: only the plain preference toggles are declared here. The
+    # keyboard shortcut binding (Hold -> Cmd) is stored as an opaque
+    # NSKeyedArchiver blob, not a plain value, so it can't be expressed
+    # through CustomUserPreferences - rebind it by hand once per machine via
+    # AltTab's menu bar icon -> Preferences -> Shortcut -> Hold -> Cmd.
+    # Accessibility and Screen Recording permissions also require a manual
+    # grant in System Settings; macOS doesn't allow those to be pre-approved.
+    CustomUserPreferences."com.lwouis.alt-tab-macos" = {
+      previewFocusedWindow = true;
+      appearanceStyle = 1;
+      appearanceSize = 1;
+    };
   };
   nix-homebrew = {
     enable = true;
     inherit user;
+    autoMigrate = true;  # take over the existing /opt/homebrew install instead of erroring
   };
   homebrew = {
     enable = true;
@@ -38,6 +53,7 @@
       "herdr"
     ];
     casks = [
+      "alt-tab"
       "wezterm"
       "claude-code"
     ];
