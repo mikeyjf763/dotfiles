@@ -9,9 +9,15 @@ return {
           vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
         end
 
-        -- Navigate hunks
-        bmap("n", "]c", gs.next_hunk, "Next git hunk")
-        bmap("n", "[c", gs.prev_hunk, "Prev git hunk")
+        -- Navigate both unstaged and staged hunks. Gitsigns normally targets
+        -- only the working-tree/index diff, which makes staged changes appear
+        -- to have no hunks even though Diffview can still show them.
+        bmap("n", "]c", function()
+          gs.nav_hunk("next", { target = "all" })
+        end, "Next git hunk (all changes)")
+        bmap("n", "[c", function()
+          gs.nav_hunk("prev", { target = "all" })
+        end, "Prev git hunk (all changes)")
 
         -- Stage / reset
         bmap("n", "<leader>gs", gs.stage_hunk, "Stage hunk")

@@ -11,6 +11,7 @@ Search this file with `Cmd+F` — every keymap has its own line with a plain-Eng
 - [Basic Movement & Editing (built-in)](#basic-movement--editing-built-in)
 - [Window / Split Navigation](#window--split-navigation)
 - [Telescope (fuzzy finder)](#telescope-fuzzy-finder)
+- [Bufferline (open files)](#bufferline-open-files)
 - [Git — Diffview (change list / diff review)](#git--diffview-change-list--diff-review)
 - [Git — Gitsigns (inline hunks)](#git--gitsigns-inline-hunks)
 - [Git — mini.diff (unified overlay)](#git--minidiff-unified-overlay)
@@ -134,6 +135,16 @@ i| `$` | Jump to end of line |
 | `Ctrl+t` | Open in new tab |
 | `Esc` or `Ctrl+c` | Close picker |
 
+## Bufferline (open files)
+
+A compact top bar shows buffers that are still open in the current Neovim session. It is intentionally minimal: no icons, close buttons, or diagnostics.
+
+| Keymap | Mode | Action |
+|---|---|---|
+| `[b` | normal | Previous open buffer |
+| `]b` | normal | Next open buffer |
+| `<space>bp` | normal | Pick an open buffer from the bar |
+
 ## Git — Diffview (change list / diff review)
 
 Use this to review a batch of changes (e.g. everything an AI just edited) — it's the closest thing to VSCode's Source Control panel.
@@ -157,7 +168,7 @@ Use this to review a batch of changes (e.g. everything an AI just edited) — it
 
 ## Git — Gitsigns (inline hunks)
 
-Use this while editing a single file — shows `+`/`~`/`-` in the sign column and lets you act on individual hunks (a "hunk" = one contiguous block of changed lines).
+Use this while editing a single file — shows `+`/`~`/`-` in the sign column and lets you act on individual hunks (a "hunk" = one contiguous block of changed lines). Navigation includes both staged and unstaged changes.
 
 | Keymap | Mode | Action |
 |---|---|---|
@@ -186,7 +197,7 @@ column gitsigns already uses.
 
 | Keymap | Mode | Action |
 |---|---|---|
-| `<space>go` | normal | Toggle the inline diff overlay for the current buffer |
+| `<space>go` | normal | Toggle the inline diff overlay for the current buffer, compared with `HEAD` |
 
 ## Terminal (toggleterm + lazygit)
 
@@ -347,6 +358,7 @@ Mostly automatic (syntax highlighting + indentation) — no keymaps needed for b
 |---|---|
 | [rose-pine/neovim](https://github.com/rose-pine/neovim) | Colorscheme (moon variant, matches WezTerm) |
 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Fuzzy finder for files/text/buffers/help |
+| [bufferline.nvim](https://github.com/akinsho/bufferline.nvim) | Compact top bar for open buffers |
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Better syntax highlighting & indentation |
 | [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Inline git change indicators & hunk actions |
 | [diffview.nvim](https://github.com/sindrets/diffview.nvim) | VSCode-style diff/change review panel |

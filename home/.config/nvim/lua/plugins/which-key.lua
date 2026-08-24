@@ -80,8 +80,8 @@ return {
       { "]d",         desc = "Next diagnostic" },
 
       -- ── Git (gitsigns — active in git repos) ─────────────────────────
-      { "]c",         desc = "Next git hunk" },
-      { "[c",         desc = "Prev git hunk" },
+      { "]c",         desc = "Next git hunk (all changes)" },
+      { "[c",         desc = "Prev git hunk (all changes)" },
       { "<leader>gs", desc = "Stage hunk" },
       { "<leader>gr", desc = "Reset hunk" },
       { "<leader>gS", desc = "Stage entire buffer" },
@@ -89,6 +89,10 @@ return {
       { "<leader>gu", desc = "Undo stage hunk" },
       { "<leader>gp", desc = "Preview hunk diff" },
       { "<leader>gb", desc = "Blame line" },
+      { "<leader>go", desc = "Inline diff (against HEAD)" },
+      { "[b",         desc = "Previous buffer" },
+      { "]b",         desc = "Next buffer" },
+      { "<leader>bp", desc = "Pick buffer" },
 
       -- ── Undo tree ────────────────────────────────────────────────────
       { "<leader>uu", desc = "Toggle undo tree" },
