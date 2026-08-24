@@ -159,6 +159,12 @@ When enabled, Calm hides collapsed thinking and the call/result shells for Pi's 
 
 Calm never changes prompts, tool execution, model context, session data, or ordering. `/share` and `/export` use the complete stock transcript. Generic custom tools, images, and unsupported Pi transcript classes deliberately remain visible because Pi has no safe general-purpose transcript filter. If a future Pi release no longer exports the exact collapsed-thinking rendering seam, Calm logs one diagnostic and leaves only that adapter disabled; all other behavior remains available.
 
+### Pi Lavish Auto Review
+
+`home/.pi/agent/extensions/lavish-auto-review` is a global Pi extension that automatically moves substantial review-oriented responses into Lavish. It adds per-turn guidance so Pi prefers creating a real `.lavish/*.html` artifact for long reviews, audits, plans, comparisons, reports, and technical designs. If a substantial response still arrives as Markdown, the extension creates a safe escaped fallback artifact, opens it with `lavish-axi`, and replaces the long transcript message with a short pointer to the artifact.
+
+The extension intentionally does not start Lavish feedback polling or duplicate Firstmate's process-event runner. Firstmate remains the owner of durable asynchronous feedback handling. Short answers, explicit plain-text/CLI requests, non-interactive Pi modes, and responses that already invoked `lavish-axi` remain in the normal transcript. The behavior is automatic and has no slash command.
+
 Pi's package system declares two third-party sources in the linked global `settings.json`:
 
 - `npm:@ryan_nookpi/pi-extension-codex-fast-mode@0.2.6` - the exact public npm release from `ryan_nookpi`.

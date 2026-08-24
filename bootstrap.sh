@@ -76,4 +76,18 @@ else
   echo "      curl -fsSL https://claude.ai/install.sh | bash"
 fi
 
+echo "==> Step 6: Pi Coding Agent (best effort)"
+# Pi is installed via npm, not Homebrew or Nix: it self-updates and is
+# managed by the upstream team. The --ignore-scripts flag is required by
+# the package. Can fail behind a corporate proxy; re-run later if so.
+if command -v pi >/dev/null 2>&1; then
+  echo "    pi already installed, skipping"
+elif npm install -g --ignore-scripts @earendil-works/pi-coding-agent; then
+  echo "    pi installed"
+else
+  echo "    WARNING: pi install failed (likely a VPN/proxy or npm auth issue)."
+  echo "    Re-run manually:"
+  echo "      npm install -g --ignore-scripts @earendil-works/pi-coding-agent"
+fi
+
 echo "==> Done. Use ./rebuild.sh for future changes."
