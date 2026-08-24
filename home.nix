@@ -42,7 +42,7 @@ in
     autosuggestion.enable = true;      # ghost text from history
     syntaxHighlighting.enable = true;  # commands turn green when valid
     initContent = ''
-      bindkey '^f' autosuggest-accept
+      bindkey '^I' autosuggest-accept
 
       # nvm is installed by its own upstream installer (not nix-managed, same
       # reasoning as claude in ~/.local/bin), so just source it if present.
@@ -58,6 +58,15 @@ in
       # Corporate work proxy, kept out of ~/.claude so it never touches
       # personal Claude credentials/history. Explicit versioned model IDs are
       # required: the proxy 400s on the "sonnet"/"opus" shorthand aliases.
+
+      # Start the copilot-api proxy with the Zscaler root CA trusted. The proxy
+      # is a Node process that reaches the upstream API through Zscaler's TLS
+      # interception, so without this it fails the handshake ("unable to get
+      # local issuer certificate") whenever Zscaler is on.
+      function proxy-start() {
+        NODE_EXTRA_CA_CERTS="$HOME/.zscaler-ca-full.pem" copilot-api start "$@"
+      }
+
       function claude-work() {
         CLAUDE_CONFIG_DIR="$HOME/.claude-work" \
         ANTHROPIC_BASE_URL=http://localhost:4141 \
@@ -83,7 +92,6 @@ in
       pull = "git pull";
       m = "git switch main";
       cc = "claude --dangerously-skip-permissions";
-      co = "codex --full-auto";
       ls = "eza --icons";
       ll = "eza -la --icons --git";
       cat = "bat";
