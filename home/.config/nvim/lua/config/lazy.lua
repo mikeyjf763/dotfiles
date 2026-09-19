@@ -19,6 +19,6 @@ require("lazy").setup({
     -- Auto-import every file in lua/plugins/. Each returns a lazy.nvim spec.
     { import = "plugins" },
   },
-  install = { colorscheme = { "rose-pine" } },
+  install = { colorscheme = { "onelight" } },
   checker = { enabled = false }, -- don't auto-check for plugin updates
 })

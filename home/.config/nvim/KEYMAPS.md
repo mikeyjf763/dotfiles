@@ -345,7 +345,7 @@ Mostly automatic (syntax highlighting + indentation) — no keymaps needed for b
 
 | Plugin | Purpose |
 |---|---|
-| [rose-pine/neovim](https://github.com/rose-pine/neovim) | Colorscheme (moon variant, matches WezTerm) |
+| [onedarkpro.nvim](https://github.com/olimorris/onedarkpro.nvim) | Colorscheme (One Light variant, matches WezTerm) |
 | [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) | Fuzzy finder for files/text/buffers/help |
 | [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Better syntax highlighting & indentation |
 | [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim) | Inline git change indicators & hunk actions |
