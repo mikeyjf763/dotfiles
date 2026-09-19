@@ -3,7 +3,7 @@ local wezterm = require("wezterm")
 local config = wezterm.config_builder()
 
 config.color_scheme = "One Light (Gogh)"
-config.font = wezterm.font("Hack Nerd Font")
+config.font = wezterm.font("FiraCode Nerd Font")
 config.font_size = 15.0
 config.window_background_opacity = 0.8
 config.macos_window_background_blur = 50

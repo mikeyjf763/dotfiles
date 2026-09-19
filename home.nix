@@ -21,7 +21,7 @@ in
     eza       # ls/ll replacement
     zoxide    # smart cd
     # the font everything renders in
-    nerd-fonts.hack
+    nerd-fonts.fira-code
   ];
   fonts.fontconfig.enable = true;
   home.sessionVariables.EDITOR = "nvim";
