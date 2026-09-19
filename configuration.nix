@@ -63,6 +63,7 @@
       "alt-tab"
       "wezterm"
       "obsidian"
+      "handy"      # free, open source, local-only voice-to-text
     ];
   };
 }

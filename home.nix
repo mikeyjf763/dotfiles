@@ -16,6 +16,8 @@ in
     lazygit
     neovim
     nodejs    # needed by nvim's Mason to install most LSP servers (ts_ls, pyright, bashls, jsonls, cssls, html)
+    tree-sitter # CLI required by nvim-treesitter's `main` branch to compile parsers (e.g. python)
+    go        # also what Claude Code's gopls-lsp plugin shells out to
     eza       # ls/ll replacement
     zoxide    # smart cd
     # the font everything renders in
@@ -25,7 +27,17 @@ in
   home.sessionVariables.EDITOR = "nvim";
   # claude installs itself here; home-manager owns .zshenv/.zshrc so this must
   # be declared, not hand-added, or it's lost on the next switch.
-  home.sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
+  home.sessionPath = [
+    "${config.home.homeDirectory}/.local/bin"
+    "${config.home.homeDirectory}/.npm-global/bin"
+    "${config.home.homeDirectory}/go/bin"
+  ];
+  # nodejs comes from the Nix store, which is read-only, so npm's default
+  # global prefix (next to the node binary) can't be written to. Point
+  # global installs (e.g. `npm install -g`) at a writable dir instead.
+  home.file.".npmrc".text = ''
+    prefix=${config.home.homeDirectory}/.npm-global
+  '';
 
   programs.fzf = {
     enable = true;
@@ -87,6 +99,14 @@ in
       ls = "eza --icons";
       ll = "eza -la --icons --git";
       cat = "bat";
+      # DeepSeek Harness (dsh) web profile needs --expose-internals for its
+      # HMR plugin to boot, even though it's configured disabled - rc.2 bug.
+      # --import fix-undici-timeout.mjs works around undici's global fetch
+      # dispatcher defaulting to a 5-minute headers/body timeout, which was
+      # silently killing long local-model responses that had actually
+      # succeeded (confirmed in ollama's own server.log: 200 OK responses
+      # followed immediately by "Request terminated: context canceled").
+      dsh-web = "node --expose-internals --import /Users/mikefurlong/.dsh/fix-undici-timeout.mjs /Users/mikefurlong/.npm-global/lib/node_modules/@deepseek-ai/dsh/lib/bin.js web";
     };
   };
 
