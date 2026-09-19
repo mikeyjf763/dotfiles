@@ -5,11 +5,10 @@ return {
   "olimorris/onedarkpro.nvim",
   priority = 1000, -- load before other plugins
   config = function()
+    vim.opt.background = "light"
     require("onedarkpro").setup({
       options = {
-        transparency = vim.uv.os_uname().sysname == "Darwin"
-          or string.find(vim.uv.os_uname().sysname, "Windows") ~= nil
-          or string.find(vim.uv.os_uname().release, "WSL") ~= nil,
+        transparency = false,
       },
     })
 
