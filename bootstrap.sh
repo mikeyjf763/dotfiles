@@ -108,7 +108,23 @@ else
   echo "      npm install -g @earendil-works/pi-coding-agent"
 fi
 
-echo "==> Step 7: Matt Pocock's Claude Code skills (best effort)"
+echo "==> Step 7: Herdr Plus plugin (best effort)"
+# Pin third-party executable code to an audited commit. Herdr stores the cloned
+# runtime under ~/.config/herdr/plugins, which is intentionally gitignored.
+HERDR_PLUS_REF="f38df3570bea8f7ca71dc1ba11bce3b123d14402"
+if ! command -v herdr >/dev/null 2>&1; then
+  echo "    WARNING: herdr is unavailable; run ./rebuild.sh, then retry this step."
+elif herdr plugin action list --plugin cloudmanic.herdr-plus >/dev/null 2>&1; then
+  echo "    Herdr Plus already installed, skipping"
+elif herdr plugin install cloudmanic/herdr-plus --ref "$HERDR_PLUS_REF" -y; then
+  echo "    Herdr Plus installed"
+else
+  echo "    WARNING: Herdr Plus install failed."
+  echo "    Everything else is set up. Re-run this command later:"
+  echo "      herdr plugin install cloudmanic/herdr-plus --ref $HERDR_PLUS_REF -y"
+fi
+
+echo "==> Step 8: Matt Pocock's Claude Code skills (best effort)"
 # Installed via the skills.sh CLI (npx skills), not tracked by home-manager:
 # it writes plain copied files under ~/.claude/skills/<name>, so re-running
 # this step is how you pick up new/updated skills on a fresh machine. The
@@ -136,7 +152,7 @@ else
   echo "    Everything else is set up. Re-run this step later once npm/the registry is reachable."
 fi
 
-echo "==> Step 8: unslop writing skill (best effort)"
+echo "==> Step 9: unslop writing skill (best effort)"
 # From cursor/plugins' pstack bundle (https://github.com/cursor/plugins), which
 # has ~80 skills total - only unslop is pulled in, not the rest of pstack.
 # --full-depth is required: pstack nests each skill under

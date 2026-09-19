@@ -110,7 +110,8 @@ Read through `brews` and `casks` before you run `bootstrap.sh` or `rebuild.sh` f
 
 **About `herdr`:** it's in the `brews` list.
 It's a real public Homebrew formula (`brew info herdr` finds it in homebrew-core, no tap needed), so it will install fine.
-If you don't use it, just remove it from `brews` in your copy.
+`bootstrap.sh` also installs [Herdr Plus](https://github.com/cloudmanic/herdr-plus) at a pinned commit, adding project templates and quick actions. Herdr stores the downloaded plugin runtime under `~/.config/herdr/plugins`, which is gitignored. The plugin runs third-party code with your user permissions; updates require reviewing and changing `HERDR_PLUS_REF` in `bootstrap.sh`.
+If you don't use Herdr, remove it from `brews` and remove the Herdr Plus bootstrap step in your copy.
 
 **Heads-up:**
 
