@@ -1,0 +1,9 @@
+name = "New Pi Tab"
+description = "Start a named Pi agent in a new tab for this directory"
+type = "command"
+command = '''
+herdr_bin="${HERDR_BIN_PATH:-herdr}"
+created="$("$herdr_bin" tab create --cwd "$PWD" --label "Pi" --focus)"
+pane_id="$(printf '%s' "$created" | jq -er '.result.root_pane.pane_id')"
+"$herdr_bin" agent start "pi-$(date +%s)" --kind pi --pane "$pane_id"
+'''
