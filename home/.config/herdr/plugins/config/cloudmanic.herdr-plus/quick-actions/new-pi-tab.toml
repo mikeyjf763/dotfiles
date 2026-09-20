@@ -1,9 +1,23 @@
-name = "New Pi Tab"
-description = "Start a named Pi agent in a new tab for this directory"
+name = "Open Pi + Neovim Review Workspace"
+description = "Create Pi and two-pane Diffview/editor tabs for this directory"
 type = "command"
 command = '''
+set -eu
+
 herdr_bin="${HERDR_BIN_PATH:-herdr}"
-created="$("$herdr_bin" tab create --cwd "$PWD" --label "Pi" --focus)"
-pane_id="$(printf '%s' "$created" | jq -er '.result.root_pane.pane_id')"
-"$herdr_bin" agent start "pi-$(date +%s)" --kind pi --pane "$pane_id"
+
+pi_created="$("$herdr_bin" tab create --cwd "$PWD" --label "Pi" --no-focus)"
+pi_pane_id="$(printf '%s' "$pi_created" | jq -er '.result.root_pane.pane_id')"
+"$herdr_bin" agent start "pi-$(date +%s)" --kind pi --pane "$pi_pane_id"
+
+review_created="$("$herdr_bin" tab create --cwd "$PWD" --label "Review" --focus)"
+review_pane_id="$(printf '%s' "$review_created" | jq -er '.result.root_pane.pane_id')"
+review_tab_id="$("$herdr_bin" pane list | jq -er --arg pane_id "$review_pane_id" '.result.panes[] | select(.pane_id == $pane_id) | .tab_id')"
+
+"$herdr_bin" pane split "$review_pane_id" --direction right --ratio 0.75 --cwd "$PWD" --no-focus
+editor_pane_id="$("$herdr_bin" pane list | jq -er --arg tab_id "$review_tab_id" --arg root_pane_id "$review_pane_id" '.result.panes[] | select(.tab_id == $tab_id and .pane_id != $root_pane_id) | .pane_id')"
+
+"$herdr_bin" pane run "$review_pane_id" nvim "+DiffviewOpen" .
+"$herdr_bin" pane run "$editor_pane_id" nvim .
+"$herdr_bin" pane focus --pane "$review_pane_id" --direction right
 '''
