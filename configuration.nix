@@ -63,6 +63,8 @@
       "alt-tab"
       "wezterm"
       "obsidian"
+      "shottr"
+      "handy"
     ];
   };
 }

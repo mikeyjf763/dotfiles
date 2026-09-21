@@ -1,0 +1,19 @@
+{
+  "defaultModel": "github-copilot/gpt-5.6-luna",
+  "defaultThinking": "high",
+  "roles": {
+    "ticket-refiner": {},
+    "code-scout": {},
+    "edge-case-detector": {},
+    "test-strategy-scout": {},
+    "test-implementor": {},
+    "technical-planner": {},
+    "implementer": {}
+  },
+  "workflows": {
+    "ticket-implementation": {
+      "prompt": "ticket-implementation.md",
+      "description": "Refine, test, plan, and implement a ticket with human gates"
+    }
+  }
+}

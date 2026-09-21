@@ -44,7 +44,29 @@ in
     initContent = ''
       bindkey '^I' autosuggest-accept
 
-      # nvm is installed by its own upstream installer (not nix-managed, same
+      # When running inside a Herdr pane, start Neovim with a predictable RPC
+      # socket so other panes can send it commands (e.g. neogit's Enter opens
+      # a file in the right pane's Neovim without closing the status panel).
+      # Socket path: /tmp/nvim-herdr-<pane-id>.sock
+      function nvim() {
+        if [[ -n "$HERDR_PANE_ID" && -z "$NVIM_LISTEN_ADDRESS" ]]; then
+          local _sock="/tmp/nvim-herdr-''${HERDR_PANE_ID//:/_}.sock"
+          command nvim --listen "$_sock" "$@"
+        else
+          command nvim "$@"
+        fi
+      }
+
+      # nvim-editor marks this pane as the "editor target" that neogit (running
+      # in a separate Herdr pane) will open files into when you press Enter on a
+      # changed file. Run this once in the right pane instead of plain nvim.
+      # The pane ID is written to a well-known file so the left pane can find it.
+      function nvim-editor() {
+        if [[ -n "$HERDR_PANE_ID" ]]; then
+          echo "$HERDR_PANE_ID" > /tmp/nvim-herdr-editor-pane
+        fi
+        nvim "$@"
+      }
       # reasoning as claude in ~/.local/bin), so just source it if present.
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -137,10 +159,16 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/themes";
   home.file.".pi/agent/extensions".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/extensions";
+  home.file.".pi/agent/agents".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/agents";
+  home.file.".pi/agent/workflows".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/workflows";
   home.file.".pi/agent/models.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/models.json";
   home.file.".pi/agent/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/settings.json";
+  home.file.".pi/agent/mcp.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.pi/agent/mcp.json";
 
   home.file.".claude/CLAUDE.md".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/AGENTS.md";

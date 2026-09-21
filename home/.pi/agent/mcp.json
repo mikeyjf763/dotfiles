@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "inspire-mcp": {
+      "type": "stdio",
+      "command": "bun",
+      "args": ["run", "bin/elliot.ts", "inspire-mcp"],
+      "cwd": "${HOME}/dev/inspire-cli",
+      "timeout": 120000
+    }
+  }
+}

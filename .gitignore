@@ -16,5 +16,14 @@ result-*
 # Pi Calm is a runtime toggle; its local state file is never tracked
 /home/.pi/agent/calm
 
+# Legacy observational memory runtime state; never commit it
+/.pi/om/
+
+# Workflow run state is local runtime data; never commit it
+/home/.pi/agent/workflow-runs/
+
 # no-mistakes local validation state - never commit in this public repo
 .no-mistakes/
+
+# Lavish review artifacts are local session state, not dotfiles
+.lavish/

@@ -13,18 +13,34 @@
   "followUpMode": "all",
   "collapseChangelog": true,
   "packages": [
-    "npm:pi-web-access@0.14.0",
+    "npm:pi-herdr-subagents@0.2.0",
+    "npm:pi-ask-user@0.14.0",
+    "npm:pi-lean-portal@0.4.0",
+    "npm:pi-web-access@0.27.0",
     "npm:@ryan_nookpi/pi-extension-codex-fast-mode@0.2.6",
     "git:github.com/algal/pi-openai-server-compaction@c6d593087709e9481223dc6c6c2269b371b5e055",
     {
       "source": "npm:pi-code@1.0.14",
       "extensions": [
-        "!extensions/web.ts"
+        "!extensions/web.ts",
+        "!extensions/subagent/**",
+        "!extensions/question.ts"
       ]
     }
   ],
+  "toolsetDefaults": {
+    "toolset-state:pi-lean-dimension.web": {
+      "enabled": false
+    },
+    "toolset-state:pi-lean-dimension.web-learn": {
+      "enabled": false
+    }
+  },
+  "browser": {
+    "defaultProfile": "session"
+  },
   "lastChangelogVersion": "0.84.2",
   "defaultProvider": "github-copilot",
   "defaultModel": "gpt-5.6-luna",
-  "defaultThinkingLevel": "high"
+  "defaultThinkingLevel": "medium"
 }
