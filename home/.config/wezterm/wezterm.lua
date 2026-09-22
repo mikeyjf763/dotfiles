@@ -2,13 +2,28 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
-config.color_scheme = "One Light (Gogh)"
+local appearance = wezterm.gui.get_appearance()
+config.color_scheme = appearance:find("Dark")
+  and "Rosé Pine Moon (Gogh)"
+  or "One Light (Gogh)"
 config.font = wezterm.font("FiraCode Nerd Font")
 config.font_size = 15.0
 config.window_background_opacity = 0.8
 config.macos_window_background_blur = 50
+-- The native/fancy tab bar follows macOS chrome instead of color_scheme.
+-- Render tabs with the selected light/dark scheme so they match the panes.
+config.use_fancy_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 config.window_decorations = "RESIZE"
+
+-- Herdr 0.9.1 follows the xterm color-scheme report, which this older
+-- WezTerm build does not emit. Send the standard report whenever WezTerm
+-- reloads its config (including after a macOS appearance change).
+wezterm.on("window-config-reloaded", function(window, pane)
+  local appearance = window:get_appearance()
+  local scheme = appearance:find("Dark") and "1" or "2"
+  window:perform_action(wezterm.action.SendString("\x1b[?997;" .. scheme .. "n"), pane)
+end)
 
 -- Dim unfocused windows so the focused one is obvious at a glance.
 local UNFOCUSED_FOREGROUND_TEXT_HSB = { hue = 1.0, saturation = 0.25, brightness = 0.45 }

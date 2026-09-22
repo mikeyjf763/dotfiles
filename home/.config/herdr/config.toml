@@ -24,5 +24,6 @@ description = "open global quick actions"
 agent_panel_sort = "spaces"
 
 [theme]
-name = "one-light"
-auto_switch = false
+auto_switch = true
+dark_name = "rose-pine"
+light_name = "one-light"

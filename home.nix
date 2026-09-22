@@ -56,6 +56,13 @@ in
     initContent = ''
       bindkey '^f' autosuggest-accept
 
+      # Pi's light/dark form follows terminal appearance changes for the
+      # entire session. WezTerm now reports the macOS appearance to terminal
+      # applications, so Pi can switch without being restarted.
+      function pi() {
+        command pi --use-theme one-light/rose-pine-moon "$@"
+      }
+
       # nvm is installed by its own upstream installer (not nix-managed, same
       # reasoning as claude in ~/.local/bin), so just source it if present.
       export NVM_DIR="$HOME/.nvm"
@@ -141,6 +148,8 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
   home.file.".config/herdr".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/herdr";
+  home.file.".config/zed/settings.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/zed/settings.json";
   home.file.".claude/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/settings.json";
 
