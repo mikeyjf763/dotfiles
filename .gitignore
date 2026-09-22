@@ -3,6 +3,12 @@ home/.config/herdr/*.log
 home/.config/herdr/session.json
 home/.config/herdr/*.sock
 home/.config/herdr/.plugins.lock
+home/.config/herdr/plugins.json
+# GitHub-installed plugin code is Herdr runtime state. Plugin configuration is
+# repository-authored and remains tracked under plugins/config/.
+home/.config/herdr/plugins/github/
+home/.config/herdr/plugins/state/
+home/.config/herdr/release-notes.json
 
 # macOS + nix build noise
 .DS_Store

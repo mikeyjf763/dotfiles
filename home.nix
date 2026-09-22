@@ -67,6 +67,13 @@ in
         fi
         nvim "$@"
       }
+
+      # Pi follows the terminal's light/dark report for the whole session.
+      # WezTerm reports macOS appearance changes to terminal applications.
+      function pi() {
+        command pi --use-theme one-light/rose-pine-moon "$@"
+      }
+
       # reasoning as claude in ~/.local/bin), so just source it if present.
       export NVM_DIR="$HOME/.nvm"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -151,6 +158,8 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
   home.file.".config/herdr".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/herdr";
+  home.file.".config/zed/settings.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/zed/settings.json";
   home.file.".claude/settings.json".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.claude/settings.json";
 

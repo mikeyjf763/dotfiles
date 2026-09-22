@@ -1,0 +1,4 @@
+name = "Open Current Directory in Zed"
+description = "Open this directory in Zed for Markdown review"
+type = "command"
+command = "open -a Zed ."
